@@ -188,14 +188,11 @@ class Kdb extends Builder
                 $table = $alias[$table];
             }
 
-            if ('*' != $key && !preg_match('/[,\"\*\(\).\s]/', $key)) {
+            
+        }
+        if ('*' != $key && !preg_match('/[,\"\*\(\).\s]/', $key)) {
                 $key = '"' . $key . '"';
             }
-        }elseif($key != '*' && strpos($key,'AS') === false && false === strpos($key, '(')){
-            //字段名加上双引号避免关键字冲突
-            $key = '"' . $key . '"';
-        }
-
         if (isset($table)) {
             $key = $table . '.' . $key;
         }
