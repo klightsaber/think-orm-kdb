@@ -82,12 +82,8 @@ class Kdb extends Builder
                         break;
                 }
             } elseif (is_scalar($val)) {
-                // 过滤非标量数据
-                if (!$query->isAutoBind() && PDO::PARAM_STR == $bind[$key]) {
-                    $val = '\'' . $val . '\'';
-                }
-
-                $result[$item] = !$query->isAutoBind() ? $val : $this->parseDataBind($query, $key, $val, $bind);
+                
+                $result[$item] = $this->parseDataBind($query, $key, $val, $bind);
             }
         }
 
@@ -116,7 +112,7 @@ class Kdb extends Builder
                     $field = new Raw($sql, $bind);
                     $array[] = $this->parseRaw($query, $field);
                 } elseif (!is_numeric($key)) {
-                    if(strpos($sql, '->') !== false){
+                    if(strpos($key, '->') !== false){
                         $key = KdbQuery::parseJson($key);
                     }
                     $array[] = $this->parseKey($query, $key) . ' AS ' . $this->parseKey($query, $field, true);
@@ -195,6 +191,9 @@ class Kdb extends Builder
             if ('*' != $key && !preg_match('/[,\"\*\(\).\s]/', $key)) {
                 $key = '"' . $key . '"';
             }
+        }elseif($key != '*' && strpos($key,'AS') === false && false === strpos($key, '(')){
+            //字段名加上双引号避免关键字冲突
+            $key = '"' . $key . '"';
         }
 
         if (isset($table)) {
