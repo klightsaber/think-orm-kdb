@@ -191,8 +191,8 @@ class Kdb extends Builder
             
         }
         if ('*' != $key && !preg_match('/[,\"\*\(\).\s]/', $key)) {
-                $key = '"' . $key . '"';
-            }
+            $key = '"' . $key . '"';
+        }
         if (isset($table)) {
             $key = $table . '.' . $key;
         }

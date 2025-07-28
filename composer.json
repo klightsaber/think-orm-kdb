@@ -1,5 +1,5 @@
 {
-    "name": "yangweijie/think-orm-kdb",
+    "name": "klightsaber/think-orm-kdb",
     "description": "人大金库驱动 for think-orm",
     "type": "library",
     "require": {
